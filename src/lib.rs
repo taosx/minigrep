@@ -1,22 +1,18 @@
+use colored::*;
 use std::error::Error;
 use std::fs;
-
 pub struct Config {
-    pub pattern: String,
-    pub input: String,
-    pub sensitive: bool,
+    pattern: String,
+    input: String,
+    sensitive: bool,
 }
 
 impl Config {
     pub fn new(matches: clap::ArgMatches) -> Config {
-        let pattern = matches.value_of("pattern").unwrap().to_string();
-        let input = matches.value_of("input").unwrap().to_string();
-        let sensitive = matches.is_present("sensitive");
-
         Config {
-            pattern,
-            input,
-            sensitive,
+            pattern: matches.value_of("pattern").unwrap().to_string(),
+            input: matches.value_of("input").unwrap().to_string(),
+            sensitive: matches.is_present("sensitive"),
         }
     }
 
@@ -29,7 +25,10 @@ impl Config {
         };
 
         for line in search_fn(&self.pattern, &contents) {
-            println!("{}", line);
+            println!(
+                "{}",
+                line.replace(&self.pattern, &self.pattern.on_yellow().black().to_string())
+            );
         }
 
         Ok(())
