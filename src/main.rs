@@ -6,7 +6,7 @@ use minigrep::Config;
 
 fn main() {
     let matches = App::new("minigrep")
-        .version("0.1")
+        .version("0.2")
         .author("Tasos S. <soukoulis.tasos at gmail.com>")
         .about("Search and print pattern matches from an input file")
         .arg("<pattern>              'Sets the pattern'")
@@ -15,9 +15,7 @@ fn main() {
         .arg("-s, --sensitive        'Sets case sensitive")
         .get_matches();
 
-    let conf = Config::new(matches);
-
-    if let Err(e) = conf.run() {
+    if let Err(e) = Config::new(matches).run() {
         eprintln!("{}", e)
     }
     // Same as previous example...
